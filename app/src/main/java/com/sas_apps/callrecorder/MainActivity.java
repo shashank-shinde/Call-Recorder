@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.aykuttasil.callrecord.CallRecord;
+import com.sas_apps.callrecorder.receiver.MyReceiver;
 
 import java.io.File;
 
@@ -26,30 +27,27 @@ public class MainActivity extends AppCompatActivity {
                 .setAudioSource(MediaRecorder.AudioSource.VOICE_CALL)
                 .setShowSeed(true)
                 .build();
+        callRecord.changeReceiver(new MyReceiver(callRecord));
 
-        String path = Environment.getExternalStorageDirectory().toString()+"/CALL_REC";
+        String path = Environment.getExternalStorageDirectory().toString() + "/CALL_REC";
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
-        Log.d("Files", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i].getName());
+        Log.d("Files", "Size: " + files.length);
+        for (File file : files) {
+            Log.d("Files", "FileName:" + file.getName());
         }
     }
 
     public void StartCallRecordClick(View view) {
-        Log.i("CallRecord", "StartCallRecordClick");
+        Log.i(TAG, "StartCallRecordClick");
         callRecord.startCallReceiver();
         callRecord.enableSaveFile();
         callRecord.changeRecordDirName("CALL_REC");
     }
 
     public void StopCallRecordClick(View view) {
-        Log.i("CallRecord", "StopCallRecordClick");
+        Log.i(TAG, "StopCallRecordClick");
         callRecord.stopCallReceiver();
-
-        //callRecord.disableSaveFile();
-        //callRecord.changeRecordFileName("NewFileName");
     }
 }
