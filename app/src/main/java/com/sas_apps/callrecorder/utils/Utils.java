@@ -24,12 +24,16 @@ public class Utils {
     }
 
 
-    public static String getDuration(String duration){
-        long temp=Long.parseLong(duration);
+    public static String getDuration(String duration) {
+        long temp = Long.parseLong(duration);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(temp);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(temp);
-        return String.valueOf(minutes)+":"+String.valueOf(seconds);
+        return String.valueOf(minutes) + ":" + String.valueOf(seconds);
     }
 
+    public static String getPhoneNumber(String name) {
+        String[] parts = name.split("_");
+        return parts[3];
+    }
 
 }

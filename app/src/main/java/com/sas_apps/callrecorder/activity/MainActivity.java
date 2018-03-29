@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -27,6 +28,8 @@ import com.sas_apps.callrecorder.adaptor.RecordingsAdaptor;
 import com.sas_apps.callrecorder.receiver.MyReceiver;
 import com.sas_apps.callrecorder.record.CallRecord;
 import com.sas_apps.callrecorder.service.CallRecordService;
+
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.sas_apps.callrecorder.utils.Utils.*;
 
 
@@ -55,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
                 .build();
         callRecord.changeReceiver(new MyReceiver(callRecord));
 
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();

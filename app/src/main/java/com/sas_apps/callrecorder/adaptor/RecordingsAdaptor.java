@@ -41,13 +41,12 @@ public class RecordingsAdaptor extends RecyclerView.Adapter<RecordingsAdaptor.Re
 
     @Override
     public void onBindViewHolder(RecordingHolder holder, final int position) {
-//        TODO
         String fileName = files[position].getName();
         holder.textTime.setText(Utils.getDate(files[position].lastModified()));
-        holder.textName.setText(fileName);
-        mmr.setDataSource(context,Uri.parse(files[position].getAbsolutePath()));
+        holder.textName.setText(Utils.getPhoneNumber(fileName));
+        mmr.setDataSource(context, Uri.parse(files[position].getAbsolutePath()));
         String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        String duration=Utils.getDuration(durationStr);
+        String duration = Utils.getDuration(durationStr);
         holder.textDuration.setText(duration);
         if (fileName.charAt(4) == 'i') {
             holder.imageCallType.setImageResource(R.drawable.ic_call_received);
