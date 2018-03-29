@@ -30,4 +30,6 @@ public class MyReceiver extends CallRecordReceiver {
         Toast.makeText(context, "Recording finished", Toast.LENGTH_SHORT).show();
 
     }
+
+
 }

@@ -55,7 +55,6 @@ public class CallRecordService extends Service {
 
         Log.i(TAG, "mCallRecord.startCallReceiver()");
         mCallRecord.startCallReceiver();
-
         return START_REDELIVER_INTENT;
     }
 
@@ -63,7 +62,6 @@ public class CallRecordService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mCallRecord.stopCallReceiver();
-
         Log.i(TAG, "onDestroy()");
     }
 }

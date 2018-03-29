@@ -50,7 +50,7 @@ public class CallRecord {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(CallRecordReceiver.ACTION_IN);
         intentFilter.addAction(CallRecordReceiver.ACTION_OUT);
-
+        Log.i(TAG, "startCallReceiver()");
         if (mCallRecordReceiver == null) {
             mCallRecordReceiver = new CallRecordReceiver(this);
         }
@@ -61,6 +61,7 @@ public class CallRecord {
         try {
             if (mCallRecordReceiver != null) {
                 mContext.unregisterReceiver(mCallRecordReceiver);
+                Log.i(TAG, "stopService()");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,43 +6,43 @@
     android:layout_height="match_parent"
     tools:context="com.sas_apps.callrecorder.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleTextColor="@android:color/white"
-            app:title="@string/app_name">
-
-
-        </android.support.v7.widget.Toolbar>
-
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:background="@color/colorPrimary"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="4dp"
-            app:tabMode="fixed"
-            app:tabTextColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white">
-
-        </android.support.design.widget.TabLayout>
-
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/toolbar" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbarLayout"
+            android:layout_margin="4dp"
+            tools:listitem="@layout/list_item">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <TextView
+            android:id="@+id/text_noRecordings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_call_recordings_found"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#B71C1C</color>
     <color name="colorAccent">#8BC34A</color>
     <color name="background">#212121</color>
+
+    <color name="incomingCall">#85d42b</color>
+    <color name="outgoingCall">#22d0d6</color>
+
+
 </resources>
