@@ -1,13 +1,15 @@
-package com.sas_apps.callrecorder;
+package com.sas_apps.callrecorder.activity;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -20,9 +22,12 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.sas_apps.callrecorder.R;
+import com.sas_apps.callrecorder.adaptor.RecordingsAdaptor;
 import com.sas_apps.callrecorder.receiver.MyReceiver;
 import com.sas_apps.callrecorder.record.CallRecord;
 import com.sas_apps.callrecorder.service.CallRecordService;
+import static com.sas_apps.callrecorder.utils.Utils.*;
 
 
 public class MainActivity extends AppCompatActivity implements Switch.OnCheckedChangeListener {
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
     private CallRecord callRecord;
     private RecyclerView recyclerView;
     private TextView textNoRecordings;
+    private RecordingsAdaptor adaptor;
+    File[] files;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +49,23 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
         switchRec = findViewById(R.id.switchRec);
         switchRec.setOnCheckedChangeListener(this);
         callRecord = new CallRecord.Builder(this)
-                .setRecordFileName("REC")
+                .setRecordFileName(FILE_NAME)
                 .setAudioSource(MediaRecorder.AudioSource.VOICE_CALL)
                 .setShowSeed(true)
                 .build();
         callRecord.changeReceiver(new MyReceiver(callRecord));
 
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
 
-        String path = Environment.getExternalStorageDirectory().toString() + "/CALL_REC";
+        String path = Environment.getExternalStorageDirectory().toString() + "/" + FOLDER_NAME;
 //        Log.d("Files", "Path: " + path);
-/*        try {
+        try {
             File directory = new File(path);
-            File[] files = directory.listFiles();
+            files = directory.listFiles();
             Log.d("Files", "Size: " + files.length);
 
             for (File file : files) {
@@ -66,8 +77,10 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
             }
         } catch (NullPointerException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
-        }*/
-
+        }
+        adaptor = new RecordingsAdaptor(files, this);
+        recyclerView.setAdapter(adaptor);
+        adaptor.notifyDataSetChanged();
         Log.d(TAG, "onCreate: isMyServiceRunning " + isMyServiceRunning(CallRecordService.class));
     }
 
@@ -85,19 +98,13 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
         Log.i(TAG, "StartCallRecord");
         callRecord.startCallReceiver();
         callRecord.enableSaveFile();
-        callRecord.changeRecordDirName("CALL_REC");
+        callRecord.changeRecordDirName(FOLDER_NAME);
     }
 
     public void stopCallRecord() {
         Toast.makeText(this, "Call recorder stopped", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "StopCallRecord");
         callRecord.stopCallReceiver();
-    }
-
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(time);
-        return DateFormat.format("dd-MM-yyyy hh:mm aaa", cal).toString();
     }
 
 
@@ -111,5 +118,4 @@ public class MainActivity extends AppCompatActivity implements Switch.OnCheckedC
         }
         return false;
     }
-
 }
